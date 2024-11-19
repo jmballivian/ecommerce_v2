@@ -1,0 +1,102 @@
+CREATE DATABASE ecommerce;
+USE ecommerce;
+
+CREATE TABLE Users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    RUT_DNI VARCHAR(50),
+    firstName VARCHAR(100) NOT NULL,
+    lastName VARCHAR(100) NOT NULL,
+    maternalLastName VARCHAR(100),
+    gender ENUM('Male', 'Female') DEFAULT 'Male',
+    role ENUM('user', 'admin') DEFAULT 'user',
+    phoneNumber VARCHAR(20) NOT NULL,
+    addressLine1 VARCHAR(255) NOT NULL,
+    addressLine2 VARCHAR(255),
+    city VARCHAR(100) NOT NULL,
+    state VARCHAR(100) NOT NULL,
+    postalCode VARCHAR(20) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Products Table
+CREATE TABLE Products (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  price DECIMAL(10, 2) NOT NULL,
+  description TEXT NOT NULL,
+  category VARCHAR(100) NOT NULL,
+  stock INT NOT NULL,
+  imageURL VARCHAR(255),
+  discount DECIMAL(5, 2),
+  discountExpiry DATETIME,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Orders Table
+CREATE TABLE Orders (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  userId INT NOT NULL,
+  totalAmount DECIMAL(10, 2) NOT NULL,
+  status ENUM('pending', 'processing', 'shipped', 'delivered', 'cancelled') DEFAULT 'pending',
+  shippingOption VARCHAR(100),
+  shippingAddress JSON,
+  paymentStatus ENUM('pending', 'paid', 'failed') DEFAULT 'pending',
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (userId) REFERENCES Users(id)
+);
+
+-- OrderItems Table
+CREATE TABLE OrderItems (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  orderId INT NOT NULL,
+  productId INT NOT NULL,
+  quantity INT NOT NULL,
+  unitPrice DECIMAL(10, 2) NOT NULL,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (orderId) REFERENCES Orders(id),
+  FOREIGN KEY (productId) REFERENCES Products(id)
+);
+
+-- CartItems Table
+CREATE TABLE CartItems (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  userId INT NOT NULL,
+  productId INT NOT NULL,
+  quantity INT NOT NULL,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (userId) REFERENCES Users(id),
+  FOREIGN KEY (productId) REFERENCES Products(id)
+);
+
+-- Reviews Table
+CREATE TABLE Reviews (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  productId INT NOT NULL,
+  userId INT NOT NULL,
+  rating INT CHECK (rating >= 1 AND rating <= 5),
+  comment TEXT,
+  approved BOOLEAN DEFAULT FALSE,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (productId) REFERENCES Products(id),
+  FOREIGN KEY (userId) REFERENCES Users(id)
+);
+
+-- Favorites Table
+CREATE TABLE Favorites (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  userId INT NOT NULL,
+  productId INT NOT NULL,
+  createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (userId) REFERENCES Users(id),
+  FOREIGN KEY (productId) REFERENCES Products(id)
+);

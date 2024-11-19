@@ -1,0 +1,75 @@
+Project Structure Overview
+ecommerce
+│
+├── node_modules
+│
+└── src
+    ├── components
+    │   ├── AdminDashboard.jsx
+    │   ├── Cart.jsx
+    │   ├── Checkout.jsx
+    │   ├── ContactSupport.jsx
+    │   ├── ErrorBoundary.jsx
+    │   ├── Favorites.jsx
+    │   ├── OrderManagement.jsx
+    │   ├── ProductDetail.jsx
+    │   ├── ProductList.jsx
+    │   ├── ProductManagement.jsx
+    │   ├── ReviewForm.jsx
+    │   ├── ReviewManagement.jsx
+    │   └── SearchBar.jsx
+    │   └── UserManagement.jsx
+    │
+    ├── config
+    │   └── database.js
+    │
+    ├── controllers
+    │   ├── adminController.js
+    │   ├── cartController.js
+    │   ├── favoriteController.js
+    │   ├── notificationController.js
+    │   ├── productController.js
+    │   ├── reviewController.js
+    │   ├── searchController.js
+    │   └── userController.js
+    │
+    ├── middleware
+    │   ├── auth.js
+    │   ├── errorHandler.js
+    │   ├── security.js
+    │   └── validation.js
+    │
+    ├── models
+    │   ├── Cart.js
+    │   ├── CartItem.js
+    │   ├── Favorite.js
+    │   ├── index.js
+    │   ├── Product.js
+    │   ├── Review.js
+    │   └── User.js
+    │
+    ├── pages
+    │   ├── InternalServerError.jsx
+    │   ├── NotFound.jsx
+    │   ├── PrivacyPolicy.jsx
+    │   └── TermsOfService.jsx
+    │
+    ├── routes
+    │   ├── adminRoutes.js
+    │   ├── cartRoutes.js
+    │   ├── favoriteRoutes.js
+    │   ├── productRoutes.js
+    │   ├── reviewRoutes.js
+    │   ├── searchRoutes.js
+    │   └── userRoutes.js
+    │
+    ├── App.jsx
+    ├── main.jsx
+    ├── .env
+    ├── index.html
+    ├── MySQL_Scripts.txt
+    ├── package-lock.json
+    ├── package.json
+    ├── seed.js
+    ├── server.js
+    └── vite.config.js
